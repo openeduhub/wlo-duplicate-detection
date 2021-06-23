@@ -1,0 +1,1 @@
+docker run  -p 8080:8080 -d --name wlo-dedup -v `pwd`/src:/scr -v `pwd`/data:/data wlo-dedup-py python3 /scr/webservice.py 
