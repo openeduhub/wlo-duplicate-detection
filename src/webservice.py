@@ -12,7 +12,17 @@ class WebService(object):
    def duplicates(self):
       data = cherrypy.request.json
       print (data)
-      output = a.run(data["text"])
+      output = {}
+
+      if "id" in data.keys():
+         output = a.runByUrl(data["id"])
+
+      if "url" in data.keys():
+         output = a.runByUrl(data["url"])
+
+      if "text" in data.keys():
+         output = a.runByText(data["text"])
+
       return json.dumps(output)
 
 

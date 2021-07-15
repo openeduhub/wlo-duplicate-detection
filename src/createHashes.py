@@ -11,8 +11,7 @@ A MinHash-based near duplicate detection for the WLO dataset.
 """
 
 numHashes = 100;
-numDocs = 245047
-dataFile = "./data/wirlernenonline2-minhash.txt"
+dataFile = "./data/wirlernenonline2-dedup.txt"
 
 def shingleWords(words):
     # 'shinglesInDoc' will hold all of the unique shingle IDs present in the 
@@ -51,13 +50,14 @@ curShingleID = 0
 docsAsShingleSets = {};
 
 docs={}
-
 docNames = []
+docUrls = {}
 
 t0 = time.time()
 
 totalShingles = 0
 
+cnt = 0
 with open(dataFile) as inf:
     fit = iter(inf)
     for line in fit:
@@ -65,7 +65,7 @@ with open(dataFile) as inf:
         # Read all of the words (they are all on one line) and split them by white
         # space.
         #line = f.readline()
-        words = line.split(" ") 
+        words = line.strip().split(" ") 
   
         # Retrieve the article ID, which is the first word on the line.  
         docID = words[0]
@@ -73,7 +73,14 @@ with open(dataFile) as inf:
         # Maintain a list of all document IDs.  
         docNames.append(docID)
     
-        del words[0]  
+        docUrl = words[1]
+        if not docUrl in docUrls.keys():
+            docUrls[docUrl]=[]
+        if not docUrl=="_":
+            docUrls[docUrl].append(docID)
+    
+        del words[0]
+        del words[0]
   
         # 'shinglesInDoc' will hold all of the unique shingle IDs present in the 
         # current document. If a shingle ID occurs multiple times in the document,
@@ -86,7 +93,10 @@ with open(dataFile) as inf:
 
         # Count the number of shingles across all documents.
         totalShingles = totalShingles + (len(words) - 2)
+        
+        cnt +=1
 
+numDocs = cnt
 
 # Report how long shingling took.
 print ('\nShingling ' + str(numDocs) + ' docs took %.2f sec.' % (time.time() - t0))
@@ -214,6 +224,9 @@ with open('./data/coeffb.p', 'wb') as f:
 
 with open('./data/docs.p', 'wb') as f:
     pickle.dump(docs, f)
+
+with open('./data/docUrls.p', 'wb') as f:
+    pickle.dump(docUrls, f)
 
 with open('./data/shingles.p', 'wb') as f:
     pickle.dump(docsAsShingleSets, f)

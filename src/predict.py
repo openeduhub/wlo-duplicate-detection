@@ -13,7 +13,7 @@ A MinHash-based near duplicate detection for the WLO dataset.
 class Prediction:
 
 	docNames, docs, signatures, arr, coeffA, coeffB = None, None, None, None, None, None
-	docsAsShingleSets = None
+	docsAsShingleSets, docUrls = None, None
 
 	numHashes=100
 
@@ -28,6 +28,9 @@ class Prediction:
 		with open('../data/docs.p', 'rb') as f:
 			self.docs = pickle.load(f)
 
+		with open('../data/docUrls.p', 'rb') as f:
+			self.docUrls = pickle.load(f)
+
 		with open('../data/coeffa.p', 'rb') as f:
 			self.coeffA = pickle.load(f)
 
@@ -36,6 +39,8 @@ class Prediction:
 
 #		with open('./data/shingles.p', 'rb') as f:
 #			self.docsAsShingleSets=pickle.load(f)
+
+		print (self.docs[self.docNames[5]])
 
 		self.arr = np.array(self.signatures)
 
@@ -65,8 +70,19 @@ class Prediction:
 			signature.append(minHashCode)
 		return signature
 
+	def runById(self, d):
+		if d in self.docNames:
+			return [[d, "1.0", " ".join(self.docs[d])]]
+		return []
 
-	def run(self, text):
+	def runByUrl(self, url):
+		result=[]
+		if url in self.docUrls.keys():
+			for d in self.docUrls[url]:
+				result.append([d, "1.0", " ".join(self.docs[d])])
+		return result
+
+	def runByText(self, text):
 		shingles = self.shingleWords(text.split())
 		sig = self.getSignature(shingles)
 
@@ -95,9 +111,16 @@ if __name__ == '__main__':
 
 	print ("Searching near duplicates for: '" + text + "'")
 
-	r = Prediction()
-	for r in r.run(text):
+	p = Prediction()
+	print ("TEXT")
+	for r in p.runByText(text):
 		print (r)
 
+	print ("ID")
+	for r in p.runById(text):
+		print (r)
 
+	print ("URL")
+	for r in p.runByUrl(text):
+		print (r)
 
