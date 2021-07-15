@@ -15,7 +15,7 @@ class WebService(object):
       output = {}
 
       if "id" in data.keys():
-         output = a.runByUrl(data["id"])
+         output = a.runById(data["id"])
 
       if "url" in data.keys():
          output = a.runByUrl(data["url"])
