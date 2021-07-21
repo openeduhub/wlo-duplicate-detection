@@ -1,4 +1,4 @@
-import cherrypy, json, sys, cherrypy_cors
+import cherrypy, json, sys
 
 from predict import Prediction
 
@@ -30,7 +30,6 @@ if __name__ == '__main__':
 
    a = Prediction()
 
-   config = {'server.socket_host': '0.0.0.0', 'cors.expose.on': True}
-   cherrypy_cors.install()
+   config = {'server.socket_host': '0.0.0.0'}
    cherrypy.config.update(config)
    cherrypy.quickstart(WebService())	
