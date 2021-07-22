@@ -32,6 +32,10 @@ def shingleWords(words):
         # Note that set objects will only add the value to the set if the set 
         # doesn't already contain it. 
         shinglesInDoc.add(crc)
+    if len(words)<=2:
+         shingle = " ".join(words)
+         crc = binascii.crc32(shingle.encode()) & 0xffffffff
+         shinglesInDoc.add(crc)
     return shinglesInDoc
 
 # =============================================================================
