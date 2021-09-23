@@ -11,7 +11,7 @@ A MinHash-based near duplicate detection for the WLO dataset.
 """
 
 numHashes = 100;
-dataFile = "./data/wirlernenonline2-dedup.txt"
+dataFile = "./data/wirlernenonline3-dedup.txt"
 
 def shingleWords(words):
     # 'shinglesInDoc' will hold all of the unique shingle IDs present in the 
