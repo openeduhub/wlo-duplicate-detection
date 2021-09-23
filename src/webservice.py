@@ -23,7 +23,7 @@ class WebService(object):
       if "text" in data.keys():
          output = a.runByText(data["text"])
 
-      return json.dumps(output)
+      return output
 
 
 if __name__ == '__main__':
