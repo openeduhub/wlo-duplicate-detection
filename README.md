@@ -41,7 +41,7 @@ The result is a list of tuples containing the relevant document IDs, similarity 
 
 ## Webservice
 
-- To run the subject prediction tool as a simple REST based webservice, the following script can be used:
+- To run the detection tool as a  REST based webservice, the following script can be used:
 
 ```
 sh runService.sh
