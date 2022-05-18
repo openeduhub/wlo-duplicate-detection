@@ -82,7 +82,7 @@ class Prediction:
 				result.append([d, "1.0", " ".join(self.docs[d])])
 		return result
 
-	def runByText(self, text):
+	def runByText(self, text, threshold):
 		shingles = self.shingleWords(text.split())
 		sig = self.getSignature(shingles)
 
@@ -98,7 +98,7 @@ class Prediction:
 			#print (self.docNames[d])
 			#print (" ".join(self.docs[self.docNames[d]]))
 			#print ("----")
-			if (dists[d][0]>0.8):
+			if (dists[d][0]>threshold):
 				result.append([self.docNames[d], dists[d][0], " ".join(self.docs[self.docNames[d]])])
 
 		return result

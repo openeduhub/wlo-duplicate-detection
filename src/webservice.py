@@ -13,6 +13,7 @@ class WebService(object):
       data = cherrypy.request.json
       print (data)
       output = {}
+      threshold = data.get("threshold", 0.8)
 
       if "id" in data.keys():
          output = a.runById(data["id"])
@@ -21,7 +22,7 @@ class WebService(object):
          output = a.runByUrl(data["url"])
 
       if "text" in data.keys():
-         output = a.runByText(data["text"])
+         output = a.runByText(data["text"], threshold)
 
       return output
 
